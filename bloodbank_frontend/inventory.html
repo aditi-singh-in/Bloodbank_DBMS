@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory | Blood Bank</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar"></aside>
+
+        <main class="content">
+            <header class="page-head">
+                <div>
+                    <h1>Blood Inventory</h1>
+                    <p>Current blood stock and availability</p>
+                </div>
+
+                <button class="btn primary" onclick="openModal('Add Blood Stock')">
+                    ＋ Add Stock
+                </button>
+            </header>
+
+            <section class="inventory-cards" id="inventoryCards"></section>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>Inventory Details</h2>
+                    <span class="muted">Updated just now</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Blood Group</th>
+                                <th>Available Units</th>
+                                <th>Reserved</th>
+                                <th>Expiry Alert</th>
+                                <th>Stock Level</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="inventoryTableBody">
+                            <tr>
+                                <td colspan="5">Loading inventory...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof loadInventory === "function") {
+                loadInventory();
+            }
+        });
+    </script>
+</body>
+</html>

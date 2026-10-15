@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Dashboard | Blood Bank</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="side-brand"><span>🩸</span><b>BloodBank</b></div>
+<div class="user-mini"><div class="avatar">A</div><div><b>Admin User</b><small>Administrator</small></div></div>
+<nav class="side-nav">
+<a class="active" href="dashboard.html">▦ <span>Dashboard</span></a>
+<a href="donors.html">♙ <span>Donors</span></a>
+<a href="recipients.html">♧ <span>Recipients</span></a>
+<a href="inventory.html">▣ <span>Blood Inventory</span></a>
+<a href="requests.html">⌁ <span>Blood Requests</span></a>
+<a href="donations.html">♥ <span>Donations</span></a>
+<a href="reports.html">▤ <span>Reports</span></a>
+</nav>
+<div class="side-bottom"><a href="#">⚙ <span>Settings</span></a><a href="index.html">↪ <span>Logout</span></a></div>
+</aside>
+<main class="content">
+<header class="page-head"><div><h1>Dashboard</h1><p>Overview of your blood bank activity</p></div><div class="head-actions"><span class="notification">🔔</span><span class="date">04 Sep 2026</span></div></header>
+<section class="stats">
+<div class="stat"><div class="stat-icon">♙</div><div><span>Total Donors</span><strong>248</strong><small>+12 this month</small></div></div>
+<div class="stat"><div class="stat-icon">♧</div><div><span>Recipients</span><strong>126</strong><small>+8 this month</small></div></div>
+<div class="stat"><div class="stat-icon">🩸</div><div><span>Blood Units</span><strong>532</strong><small>Across 8 groups</small></div></div>
+<div class="stat"><div class="stat-icon">⌁</div><div><span>Pending Requests</span><strong>18</strong><small>Needs attention</small></div></div>
+</section>
+<div class="dashboard-grid">
+<section class="panel"><div class="panel-head"><h2>Blood Inventory</h2><a href="inventory.html">View all →</a></div><div class="blood-grid" id="bloodGrid"></div></section>
+<section class="panel"><div class="panel-head"><h2>Recent Requests</h2><a href="requests.html">View all →</a></div><div id="recentRequests"></div></section>
+</div>
+<section class="panel"><div class="panel-head"><h2>Quick Actions</h2></div><div class="quick-actions"><a href="donors.html" class="quick">＋<b>Add Donor</b><span>Register a new donor</span></a><a href="recipients.html" class="quick">＋<b>Add Recipient</b><span>Add patient details</span></a><a href="requests.html" class="quick">🩸<b>Request Blood</b><span>Create blood request</span></a><a href="reports.html" class="quick">▤<b>View Reports</b><span>System statistics</span></a></div></section>
+</main></div><script src="js/app.js"></script></body></html>
