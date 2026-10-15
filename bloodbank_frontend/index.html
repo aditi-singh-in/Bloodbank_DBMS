@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Blood Bank Management</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="login-page">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+
+        <a href="index.html" class="brand">
+            <span class="drop">♥</span>
+            Blood Bank Management
+        </a>
+
+        <nav>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+
+    </header>
+
+
+    <!-- LOGIN SECTION -->
+    <main class="login-wrap">
+
+        <!-- LEFT : LOGIN CARD -->
+        <section class="login-card">
+
+            <div class="logo-circle">
+                🩸
+            </div>
+
+            <h1>Welcome back</h1>
+
+            <p class="muted">
+                Sign in to access your blood bank dashboard.
+            </p>
+
+
+            <!-- ERROR MESSAGE -->
+            <div id="loginError" class="form-error"></div>
+
+
+            <form id="loginForm">
+
+                <!-- EMAIL -->
+                <label for="email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+
+                <!-- PASSWORD -->
+                <label for="password">Password</label>
+
+                <div class="password-wrap">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="togglePassword"
+                        aria-label="Show password"
+                    >
+                        Show
+                    </button>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+                <button
+                    class="btn primary full"
+                    type="submit"
+                >
+                    Login
+                </button>
+
+            </form>
+
+
+            <!-- REGISTER -->
+            <p class="register">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Create an account
+                </a>
+
+            </p>
+
+        </section>
+
+
+        <!-- RIGHT : VISUAL -->
+        <section class="login-art">
+
+            <div class="art-content">
+
+                <div class="art-icon">
+                    🩸
+                </div>
+
+                <div class="pulse">
+                    ────╱╲────╱╲────
+                </div>
+
+                <h2>
+                    Every drop
+                    <span>matters.</span>
+                </h2>
+
+                <p>
+                    Manage donors, blood inventory, requests and
+                    donations through one centralized system.
+                </p>
+
+                <div class="art-points">
+
+                    <div>
+                        <span>✓</span>
+                        Donor Management
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        Blood Inventory
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        Blood Requests
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- EXISTING APP JAVASCRIPT -->
+    <script src="js/app.js"></script>
+
+
+    <!-- DATABASE LOGIN -->
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const password =
+                    document.getElementById("password").value;
+
+                const errorMessage =
+                    document.getElementById("loginError");
+
+
+                // Clear previous error
+                errorMessage.textContent = "";
+                errorMessage.classList.remove("show");
+
+
+                try {
+
+                    const response = await fetch(
+                        "http://172.23.232.27:3000/api/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email: email,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                    const data = await response.json();
+
+
+                    // =========================
+                    // LOGIN SUCCESS
+                    // =========================
+
+                    if (data.success) {
+
+                        localStorage.setItem(
+                            "loggedInUser",
+                            JSON.stringify(data.user)
+                        );
+
+                        window.location.href = "dashboard.html";
+
+                    }
+
+
+                    // =========================
+                    // LOGIN FAILED
+                    // =========================
+
+                    else {
+
+                        errorMessage.textContent = data.message;
+                        errorMessage.classList.add("show");
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error("Login error:", error);
+
+                    errorMessage.textContent =
+                        "Cannot connect to the server. Make sure the backend is running.";
+
+                    errorMessage.classList.add("show");
+
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Requests | Blood Bank</title><link rel="stylesheet" href="css/style.css"></head>
+<body><div class="app"><aside class="sidebar"></aside><main class="content"><header class="page-head"><div><h1>Blood Requests</h1><p>Track and manage blood requests</p></div><button class="btn primary" onclick="openModal('Create Blood Request')">＋ New Request</button></header>
+<section class="panel"><div class="toolbar"><input id="tableSearch" oninput="filterTable()" placeholder="🔎 Search request, patient or hospital..."><select><option>All Status</option><option>Pending</option><option>Approved</option><option>Rejected</option></select></div>
+<div class="table-wrap"><table id="dataTable"><thead><tr><th>Request ID</th><th>Patient</th><th>Blood Group</th><th>Hospital</th><th>Units</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody>
+<tr><td>BR001</td><td><b>Aarav Shah</b></td><td><span class="blood-tag">O+</span></td><td>XYZ Hospital</td><td>2</td><td>04 Sep</td><td><span class="status pending">Pending</span></td><td><button class="mini" onclick="toast('Request approved')">Approve</button></td></tr>
+<tr><td>BR002</td><td><b>Riya Deshmukh</b></td><td><span class="blood-tag">A-</span></td><td>City Care</td><td>1</td><td>03 Sep</td><td><span class="status approved">Approved</span></td><td>View</td></tr>
+<tr><td>BR003</td><td><b>Kabir Singh</b></td><td><span class="blood-tag">B+</span></td><td>Ruby Hospital</td><td>3</td><td>02 Sep</td><td><span class="status pending">Pending</span></td><td><button class="mini" onclick="toast('Request approved')">Approve</button></td></tr>
+<tr><td>BR004</td><td><b>Meera Nair</b></td><td><span class="blood-tag">O-</span></td><td>City Care</td><td>2</td><td>01 Sep</td><td><span class="status rejected">Rejected</span></td><td>View</td></tr>
+</tbody></table></div></section></main></div><script src="js/app.js"></script></body></html>
