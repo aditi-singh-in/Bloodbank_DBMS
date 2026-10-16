@@ -1,5 +1,6 @@
 
-const API_BASE_URL = "http://172.23.232.27:3000";
+
+const API_BASE_URL = "https://bloodbank-dbms.onrender.com";
 
 const bloodData = [
     ["A+", 82],
