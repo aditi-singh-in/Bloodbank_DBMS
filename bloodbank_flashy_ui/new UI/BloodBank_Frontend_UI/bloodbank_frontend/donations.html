@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Donations | Blood Bank</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bbp-page bbp-donations">
+<div class="app">
+    <aside class="sidebar"></aside>
+
+    <main class="content">
+        <header class="page-head">
+            <div>
+                <span class="bbp-eyebrow">DONOR COMMUNITY</span>
+                <h1>Donation Records</h1>
+                <p>History of blood donations</p>
+            </div>
+            <button class="btn primary" onclick="openModal('Record Donation')">＋ Record Donation</button>
+        </header>
+
+        <section class="stats">
+            <div class="stat">
+                <div class="stat-icon">♥</div>
+                <div><span>Total Donations</span><strong>684</strong><small>All time</small></div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">🩸</div>
+                <div><span>This Month</span><strong>56</strong><small>+14% vs last month</small></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Donation ID</th>
+                            <th>Donor</th>
+                            <th>Blood Group</th>
+                            <th>Units</th>
+                            <th>Date</th>
+                            <th>Collection Center</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>DN684</td><td>Rahul Sharma</td><td><span class="blood-tag">O+</span></td><td>1</td><td>18 Aug 2026</td><td>Main Center</td></tr>
+                        <tr><td>DN683</td><td>Priya Patil</td><td><span class="blood-tag">A+</span></td><td>1</td><td>10 Aug 2026</td><td>Main Center</td></tr>
+                        <tr><td>DN682</td><td>Arjun Mehta</td><td><span class="blood-tag">AB+</span></td><td>1</td><td>25 Jul 2026</td><td>West Center</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="bbp-footer">♥ Every drop counts — thank you for saving lives.</footer>
+    </main>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

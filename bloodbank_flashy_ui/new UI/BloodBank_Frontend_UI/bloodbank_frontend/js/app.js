@@ -1,6 +1,5 @@
 
-
-const API_BASE_URL = "https://bloodbank-dbms.onrender.com";
+const API_BASE_URL = "http://10.203.210.27:3000";
 
 const bloodData = [
     ["A+", 82],
@@ -174,13 +173,62 @@ if (document.getElementById("inventoryTableBody")) {
 // TOAST MESSAGE
 // =========================
 
-function toast(msg) {
-    const t = document.createElement("div");
-    t.className = "toast";
-    t.textContent = msg;
-    document.body.appendChild(t);
+function toast(msg, type = "success", heading = "") {
+    // Prevent notifications from stacking over each other.
+    document.querySelectorAll(".toast").forEach(item => item.remove());
 
-    setTimeout(() => t.remove(), 3000);
+    const notification = document.createElement("div");
+    notification.className = `toast toast-${type}`;
+    notification.setAttribute(
+        "role",
+        type === "error" ? "alert" : "status"
+    );
+    notification.setAttribute(
+        "aria-live",
+        type === "error" ? "assertive" : "polite"
+    );
+
+    const icon = document.createElement("span");
+    icon.className = "toast-icon";
+    icon.textContent = type === "error" ? "!" : "♥";
+    icon.setAttribute("aria-hidden", "true");
+
+    const content = document.createElement("div");
+    content.className = "toast-copy";
+
+    const title = document.createElement("strong");
+    title.className = "toast-title";
+    title.textContent =
+        heading || (type === "error" ? "Something went wrong" : "Success");
+
+    const message = document.createElement("span");
+    message.className = "toast-message";
+    message.textContent = msg;
+
+    const close = document.createElement("button");
+    close.className = "toast-close";
+    close.type = "button";
+    close.setAttribute("aria-label", "Dismiss notification");
+    close.textContent = "×";
+    close.addEventListener("click", () => notification.remove());
+
+    content.append(title, message);
+    notification.append(icon, content, close);
+    document.body.appendChild(notification);
+
+    requestAnimationFrame(() => {
+        notification.classList.add("toast-visible");
+    });
+
+    window.setTimeout(() => {
+        if (!notification.isConnected) return;
+
+        notification.classList.add("toast-leaving");
+
+        window.setTimeout(() => {
+            notification.remove();
+        }, 250);
+    }, 5200);
 }
 
 // =========================
@@ -211,7 +259,6 @@ function escapeHTML(value) {
 
 async function loadDonors() {
     const tbody = document.getElementById("donorTableBody");
-
     if (!tbody) return;
 
     tbody.innerHTML = `
@@ -238,25 +285,80 @@ async function loadDonors() {
             return;
         }
 
-        tbody.innerHTML = donors.map(donor => `
-            <tr>
-                <td>D${String(donor.donor_id).padStart(3, "0")}</td>
-                <td><b>${escapeHTML(donor.name)}</b></td>
-                <td>
-                    <span class="blood-tag">
-                        ${escapeHTML(donor.blood_grp)}
-                    </span>
-                </td>
-                <td>${escapeHTML(donor.contact || "—")}</td>
-                <td>—</td>
-                <td>
-                    <span class="status">
-                        Not specified
-                    </span>
-                </td>
-                <td>—</td>
-            </tr>
-        `).join("");
+        const formatDate = date => {
+            if (!date) return "—";
+
+            // Use the YYYY-MM-DD part directly to avoid timezone shifts.
+            const datePart = String(date).slice(0, 10);
+            const parts = datePart.split("-");
+
+            if (parts.length !== 3) return "—";
+
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        };
+
+        tbody.innerHTML = donors.map(donor => {
+    const dateValue = donor.last_donation_date;
+    let lastDonation = "No donation recorded";
+    let nextEligible = "Unavailable";
+    let eligibility = "No donation record";
+
+    if (dateValue) {
+        // Keep the date in YYYY-MM-DD format to avoid timezone shifts.
+        const dateString = String(dateValue).slice(0, 10);
+        const parts = dateString.split("-");
+
+        if (
+            parts.length === 3 &&
+            parts[0].length === 4 &&
+            !Number.isNaN(Date.parse(dateString))
+        ) {
+            lastDonation = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+            // Provisional 90-day interval for display only.
+            const lastDate = new Date(
+                Number(parts[0]),
+                Number(parts[1]) - 1,
+                Number(parts[2])
+            );
+
+            const eligibleDate = new Date(lastDate);
+            eligibleDate.setDate(eligibleDate.getDate() + 90);
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            nextEligible =
+                `${String(eligibleDate.getDate()).padStart(2, "0")}-` +
+                `${String(eligibleDate.getMonth() + 1).padStart(2, "0")}-` +
+                eligibleDate.getFullYear();
+
+            eligibility = today >= eligibleDate
+                ? "Interval reached"
+                : "Waiting period";
+        }
+    }
+
+    return `
+        <tr>
+            <td>D${String(donor.donor_id).padStart(3, "0")}</td>
+            <td><b>${escapeHTML(donor.name)}</b></td>
+            <td>
+                <span class="blood-tag">
+                    ${escapeHTML(donor.blood_grp || "Not provided")}
+                </span>
+            </td>
+            <td>${escapeHTML(donor.contact || "Not provided")}</td>
+            <td>${lastDonation}</td>
+            <td>
+                <span class="status">
+                    ${eligibility}
+                </span>
+            </td>
+            <td>${nextEligible}</td>
+        </tr>
+    `;
+}).join("");
 
         filterTable();
 
@@ -273,7 +375,6 @@ async function loadDonors() {
         `;
     }
 }
-
 // =========================
 // ADD DONOR MODAL
 // =========================
@@ -512,22 +613,25 @@ function openModal(title) {
             }
 
             // Reload from MySQL after the insert succeeds.
-            await loadDonors();
+           await loadDonors();
 
-            backdrop.remove();
+backdrop.remove();
 
-            toast(
-                `Donor saved successfully! ID: D${String(result.donor_id).padStart(3, "0")}`
-            );
+toast(
+    `Your generosity can make a real difference. Thank you for being part of our lifesaving community! Donor ID: D${String(result.donor_id).padStart(3, "0")}`,
+    "success",
+    "Thank you for registering!"
+);
 
         } catch (error) {
-            console.error("Add donor error:", error);
-
-            toast(error.message || "Unable to connect to the backend.");
-
-            button.disabled = false;
-            button.textContent = "Save Donor";
-        }
+    toast(
+        error.message || "Unable to connect to the backend.",
+        "error"
+    );
+} finally {
+    button.disabled = false;
+    button.textContent = "Save Donor";
+}
     });
 }
 

@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Management | Blood Bank</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="donors-page">
+    <div class="app">
+        <aside class="sidebar"></aside>
+
+        <main class="content">
+            <header class="page-head">
+                <div>
+                    <h1>Donor Management</h1>
+                    <p>Manage registered blood donors</p>
+                </div>
+            </header>
+
+            <section class="donor-hero">
+                <div class="donor-hero-content">
+                    <span class="donor-eyebrow">
+                        THE GIFT OF LIFE
+                    </span>
+
+                    <h2>Every donor makes a difference.</h2>
+
+                    <p>
+                        Behind every donation is a chance to save a life.
+                        Thank you for helping us build a healthier,
+                        more caring community.
+                    </p>
+
+                    <button
+                        class="donor-hero-button"
+                        type="button"
+                        onclick="openModal('Add New Donor')">
+                        ＋ Register a Donor
+                    </button>
+                </div>
+            </section>
+
+            <section class="donor-highlights">
+                <article class="donor-highlight">
+                    <span class="donor-highlight-icon">♥</span>
+                    <div>
+                        <h3>Every donor matters</h3>
+                        <p>One registration can make a difference.</p>
+                    </div>
+                </article>
+
+                <article class="donor-highlight">
+                    <span class="donor-highlight-icon">✚</span>
+                    <div>
+                        <h3>Every donation counts</h3>
+                        <p>Help connect donors with people in need.</p>
+                    </div>
+                </article>
+
+                <article class="donor-highlight">
+                    <span class="donor-highlight-icon">♡</span>
+                    <div>
+                        <h3>Thank you for giving</h3>
+                        <p>Your generosity keeps hope alive.</p>
+                    </div>
+                </article>
+            </section>
+
+            <section class="panel donor-panel">
+                <div class="donor-panel-heading">
+                    <div>
+                        <h2>Registered Donors</h2>
+                        <p>View and manage donor information.</p>
+                    </div>
+                </div>
+
+                <div class="toolbar donor-toolbar">
+                    <input
+                        id="tableSearch"
+                        type="search"
+                        oninput="filterTable()"
+                        placeholder="Search donor name or blood group..."
+                        aria-label="Search donors">
+
+                    <select
+                        id="donorBloodFilter"
+                        onchange="filterTable()"
+                        aria-label="Filter by blood group">
+                        <option value="">All Blood Groups</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+
+                <div class="table-wrap">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Donor ID</th>
+                                <th>Name</th>
+                                <th>Blood Group</th>
+                                <th>Phone</th>
+                                <th>Last Donation</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="donorTableBody">
+                            <tr>
+                                <td colspan="7">Loading donors...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="donor-footer">
+                Every drop counts. Every donor matters.
+            </footer>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
